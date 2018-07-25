@@ -1,19 +1,29 @@
 pipeline {
   agent any
+ 
   stages {
-    stage('start') {
+     
+    stage('checkout') {
+         
       steps {
-        bat 'echo hello'
+        git 'https://github.com/effectivejenkins/myProject.git'
+      
+    }
+      }
+    stage('Build') {
+      steps {
+        bat 'mvn clean compile'
       }
     }
-    stage('sleep') {
+    stage('Test') {
       steps {
-        sleep 3
+        bat 'mvn test'
+        junit '**/target/surefire-reports/TEST-*.xml'
       }
     }
-    stage('email') {
+    stage('Package') {
       steps {
-        mail(subject: 'Some email', body: 'Hello there', from: 'anill.sangroula@uscellular.com')
+        bat 'mvn package'
       }
     }
   }
