@@ -14,6 +14,7 @@ pipeline {
     stage('email') {
       steps {
         mail(subject: 'Some email', body: 'Hello there', from: 'anill.sangroula@uscellular.com')
+        waitForQualityGate true
       }
     }
   }
